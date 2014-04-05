@@ -1,0 +1,40 @@
+{
+  "name": "ionic-rocket",
+  "version": "0.1.0",
+  "homepage": "https://github.com/yrezgui/ionic-rocket",
+  "authors": [
+    "Yacine Rezgui <rezgui.y@gmail.com>"
+  ],
+  "description": "Develop your HTML5 mobile application as fast as a rocket !",
+  "keywords": [
+    "ionic",
+    "phonegap",
+    "cordova",
+    "html5",
+    "mobile",
+    "angularjs",
+    "browserify"
+  ],
+  "license": "Apache Licence v2",
+  "ignore": [
+    "node_modules",
+    "vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.16",
+    "angular-touch": "~1.2.16",
+    "angular-animate": "~1.2.16",
+    "angular-ui-router": "~0.2.10",
+    "modernizr": "~2.7.2",
+    "lodash": "~2.4.1",
+    "ionic": "~0.9.27"
+  },
+  "resolutions": {
+    "angular": "~1.2.16",
+    "angular-animate": "~1.2.16",
+    "angular-ui-router": "~0.2.10",
+    "angular-sanitize": "~1.2.16"
+  }
+}

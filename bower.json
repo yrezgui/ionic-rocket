@@ -29,7 +29,7 @@
     "angular-ui-router": "~0.2.10",
     "modernizr": "~2.7.2",
     "lodash": "~2.4.1",
-    "ionic": "~0.9.27"
+    "ionic": "~1.0.0-beta.1"
   },
   "resolutions": {
     "angular": "~1.2.16",

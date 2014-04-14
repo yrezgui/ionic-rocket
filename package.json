@@ -1,0 +1,67 @@
+{
+  "name": "ionic-rocket",
+  "version": "0.1.0",
+  "description": "Develop your HTML5 mobile application as fast as a rocket !",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yrezgui/ionic-rocket.git"
+  },
+  "keywords": [
+    "ionic",
+    "phonegap",
+    "cordova",
+    "html5",
+    "mobile",
+    "angularjs",
+    "browserify"
+  ],
+  "author": "Yacine Rezgui <rezgui.y@gmail.com>",
+  "license": "Apache Licence v2",
+  "bugs": {
+    "url": "https://github.com/yrezgui/ionic-rocket/issues"
+  },
+  "devDependencies": {
+    "gulp": "~3.6.0",
+    "gulp-jade": "~0.4.2",
+    "gulp-less": "~1.2.3",
+    "event-stream": "~3.1.1",
+    "gulp-rename": "~1.2.0",
+    "gulp-template": "~0.1.1",
+    "gulp-clean": "~0.2.4",
+    "vinyl": "~0.2.3",
+    "mime": "~1.2.11",
+    "watchify": "~0.6.3",
+    "gulp-util": "~2.2.14",
+    "gulp-changed": "~0.3.0",
+    "gulp-newer": "~0.3.0",
+    "gulp-browserify": "~0.5.0",
+    "browserify": "~3.38.1",
+    "browserify-shim": "~3.4.1",
+    "q": "~1.0.1"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browser": {
+    "modernizr": "./vendor/modernizr/modernizr.js",
+    "jquery": "./vendor/jquery/dist/jquery.js",
+    "lodash": "./vendor/lodash/dist/lodash.js",
+    "angular": "./vendor/angular/angular.js",
+    "angular-animate": "./vendor/angular-animate/angular-animate.js",
+    "angular-sanitize": "./vendor/angular-sanitize/angular-sanitize.js",
+    "angular-touch": "./vendor/angular-touch/angular-touch.js",
+    "ionic": "./vendor/ionic/release/js/ionic.js",
+    "ionic-angular": "./vendor/ionic/release/js/ionic-angular.js",
+    "angular-ui-router": "./vendor/angular-ui-router/release/angular-ui-router.js"
+  },
+  "browserify-shim": {
+    "ionic": {
+      "exports": "ionic"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+doctype html
+html(ng-app="rocketApp")
+  head
+      meta(charset="utf-8")
+      title Ionic Rocket
+      meta(name="viewport", content="initial-scale=1, maximum-scale=1, user-scalable=no")
+
+      link(rel="stylesheet", href="css/ionic.css")
+      link(rel="stylesheet", href="css/app.css")
+
+  body(ng-controller="RootCtrl")
+
+    ion-tabs.tabs-positive.tabs-icon-only
+
+      ion-tab(title="Home", icon-on="ion-ios7-filing", icon-off="ion-ios7-filing-outline")
+        | Hello tab 1!
+      ion-tab(title="About", icon-on="ion-ios7-clock", icon-off="ion-ios7-clock-outline")
+        | Hello tab 2!
+      ion-tab(title="Settings", icon-on="ion-ios7-gear", icon-off="ion-ios7-gear-outline")
+        | Hello tab 3!
+    
+    //- script(src="cordova.js")
+    script(src="js/app.js")

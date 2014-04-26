@@ -12,7 +12,7 @@ It depends on your need. Ionic Rocket is just a boilerplate for now. It doesn't 
 
 * **Why LESS while Ionic Framework is using SASS ?**
 
-Even if I am on Mac, Ruby has bad performances on Windows and I didn't want to develop a boilerplate only for Unix users. You have to know that the difference between LESS and SASS isn't big. The cool thing with SASS is the Compass Framework. The equivalent for LESS is LESS HAT.
+Even if I am on Mac, Ruby has bad performances on Windows and I didn't want to develop a boilerplate only for Unix users. You have to know that the difference between LESS and SASS isn't big. The cool thing with SASS is the [Compass Framework](http://compass-style.org/). The equivalent for LESS is [LESS HAT](http://lesshat.madebysource.com/).
 
 * **Why Jade instead of HTML ?**
 

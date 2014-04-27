@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    meta(charset="utf-8")
+    title Ionic Rocket
+    meta(name="viewport", content="initial-scale=1, maximum-scale=1, user-scalable=no")
+
+    link(rel="stylesheet", href="css/ionic.css")
+    link(rel="stylesheet", href="css/app.css")
+
+  body(ng-app="rocketApp")
+
+    ion-nav-bar.nav-title-slide-ios7.bar-stable
+    ion-nav-view
+    
+    each val in files
+      script(src=val)

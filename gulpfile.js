@@ -34,12 +34,11 @@ function resourcesTask() {
 }
 
 function scriptsTask() {
-  return gulp.src('src/scripts/app.js')
-             .pipe(browserify({
-                insertGlobals : true,
-                debug : true
-             }))
-             .pipe(gulp.dest(path.join(config.path.build, 'js')));
+  return es.concat(
+    gulp.src(config.path.scripts),
+    gulp.src(config.scripts.dependencies)
+
+  ).pipe(gulp.dest(config.path.build));
 }
 
 function fontsTask() {
@@ -63,16 +62,32 @@ function stylesTask() {
   ).pipe(gulp.dest(path.join(config.path.build, 'css')));
 }
 
-function viewsTask() {
-  return gulp.src(['src/views/templates/**/*.jade'])
-             .pipe(jade({pretty: true}))
-             .pipe(gulp.dest(path.join(config.path.build, 'tpl')));
+function scriptsAssets() {
+  var deferred = Q.defer();
+  var list = [];
+  var files = config.scripts.dependencies.slice();
+  files.push('src/**/*.js');
+
+  gulp.src(files)
+      .on('data', function process(file) {
+        list.push(file.path.split(file.base)[1]);
+      })
+      .on('end', function process(file) {
+        deferred.resolve(list);
+      });
+
+  return deferred.promise;
 }
 
-function indexTask() {
-  return gulp.src('src/views/index.jade')
-             .pipe(jade({pretty: true}))
-             .pipe(gulp.dest(config.path.build));
+function viewsTask() {
+
+  return scriptsAssets().then(function process(files) {
+    return toPromise(
+      gulp.src('src/**/*.jade')
+          .pipe(jade({pretty: true, locals: {files: files}}))
+          .pipe(gulp.dest(config.path.build))
+    );
+  });
 }
 
 gulp.task('clean', function(){
@@ -107,10 +122,6 @@ gulp.task('views', function(){
   return viewsTask();
 });
 
-gulp.task('index', function(){
-  return indexTask();
-});
-
 gulp.task('watch', ['clean'], function(){
 
   return Q.all([
@@ -120,8 +131,7 @@ gulp.task('watch', ['clean'], function(){
     toPromise(fontsTask()),
     toPromise(imagesTask()),
     toPromise(stylesTask()),
-    toPromise(viewsTask()),
-    toPromise(indexTask())
+    toPromise(viewsTask())
     
   ]).then(function watch() {
 
@@ -133,7 +143,7 @@ gulp.task('watch', ['clean'], function(){
       gulp.watch(config.path.fonts,     ['fonts']);
       gulp.watch(config.path.configs,   ['config']);
       gulp.watch(config.path.resources, ['resources']);
-      gulp.watch(config.path.views,     ['views', 'index']);
+      gulp.watch(config.path.views,     ['views']);
   });
 });
 

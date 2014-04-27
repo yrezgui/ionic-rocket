@@ -1,26 +1,14 @@
-window.$ = window.jQuery = require('jquery');
-require('ionic');
-require('angular');
-require('angular-sanitize');
-require('angular-animate');
-require('angular-touch');
-require('angular-ui-router');
-require('ionic-angular');
+angular.module('rocketApp', [
+  'ngTouch',
+  'ngAnimate',
+  'ngSanitize',
+  'ionic',
+  'states.tabs'
+])
 
-window._ = require('lodash');
+  .config(['$compileProvider', '$urlRouterProvider', '$stateProvider', function config($compileProvider, $urlRouterProvider, $stateProvider) {
 
-var dependencies = [
-  //require('./components'),
-  require('./states')
-];
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|tel|sms):/);
 
-var deps = ['ngTouch', 'ngAnimate', 'ngSanitize', 'ionic'];
-deps.concat(_.pluck(dependencies, 'name'));
-
-var mod = module.exports = angular.module('rocketApp', deps);
-
-mod.config(['$compileProvider', '$urlRouterProvider', function config($compileProvider, $urlRouterProvider) {
-
-  $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|tel|sms):/);
-  $urlRouterProvider.otherwise('/home');
-}]);
+    $urlRouterProvider.otherwise('/home');
+  }]);

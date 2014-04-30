@@ -1,7 +1,7 @@
-angular.module('states.tabs', [
-  'states.tabs.home',
-  'states.tabs.commits',
-  'states.tabs.about'
+angular.module('app.tabs', [
+  'app.tabs.home',
+  'app.tabs.commits',
+  'app.tabs.author'
 ])
 
   .config(['$stateProvider', function config($stateProvider) {

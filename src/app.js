@@ -3,7 +3,8 @@ angular.module('rocketApp', [
   'ngAnimate',
   'ngSanitize',
   'ionic',
-  'states.tabs'
+  'components.github',
+  'app.tabs'
 ])
 
   .config(['$compileProvider', '$urlRouterProvider', '$stateProvider', function config($compileProvider, $urlRouterProvider, $stateProvider) {

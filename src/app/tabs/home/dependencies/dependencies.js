@@ -1,4 +1,4 @@
-angular.module('states.tabs.home.dependencies', [])
+angular.module('app.tabs.home.dependencies', [])
   
   .config(['$stateProvider', function config($stateProvider) {
     $stateProvider.state('tabs.home.dependencies', {

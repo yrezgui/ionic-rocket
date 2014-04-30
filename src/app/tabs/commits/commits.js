@@ -1,4 +1,4 @@
-angular.module('states.tabs.commits', [])
+angular.module('app.tabs.commits', ['components.github'])
 
   .config(['$stateProvider', function config($stateProvider) {
     $stateProvider.state('tabs.commits', {

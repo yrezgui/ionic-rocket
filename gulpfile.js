@@ -7,6 +7,8 @@ var es          = require('event-stream');
 var path        = require('path');
 var Q           = require('q');
 
+var assetsMap = {};
+
 function toPromise(stream) {
   var deferred = Q.defer();
 
@@ -15,6 +17,28 @@ function toPromise(stream) {
   });
 
   return deferred.promise;
+}
+
+function changeFolder(subfolder) {
+  return es.through(function process(data) {
+    var finalpath = path.relative(data.base, data.path);
+    finalpath = path.join(subfolder, finalpath);
+
+    data.path = path.join('/tmp', finalpath);
+    data.base = '/tmp/';
+    this.emit('data', data);
+  });
+}
+
+function updateAssetsMap(type) {
+  if(!assetsMap[type]) {
+    assetsMap[type] = [];
+  }
+
+  return es.mapSync(function process(data) {
+    assetsMap[type].push(data.path.split(data.base)[1]);
+    return data;
+  });
 }
 
 function cleanTask() {
@@ -29,8 +53,8 @@ function configTask() {
 
 function scriptsTask() {
   return es.concat(
-    gulp.src(config.path.scripts),
-    gulp.src(config.scripts.dependencies)
+    gulp.src(config.path.scripts).pipe(updateAssetsMap('scripts')),
+    gulp.src(config.scripts.dependencies).pipe(changeFolder('deps')).pipe(updateAssetsMap('dependencies'))
 
   ).pipe(gulp.dest(config.path.build));
 }
@@ -53,35 +77,16 @@ function stylesTask() {
     gulp.src(config.path.styles).pipe(sass()),
     gulp.src(config.externalFiles.styles)
 
-  ).pipe(gulp.dest(path.join(config.path.build, 'css')));
-}
-
-function scriptsAssets() {
-  var deferred = Q.defer();
-  var list = [];
-  var files = config.scripts.dependencies.slice();
-  files.push('src/**/*.js');
-
-  gulp.src(files)
-      .on('data', function process(file) {
-        list.push(file.path.split(file.base)[1]);
-      })
-      .on('end', function process(file) {
-        deferred.resolve(list);
-      });
-
-  return deferred.promise;
+  ).pipe(changeFolder('css')).pipe(updateAssetsMap('styles')).pipe(gulp.dest(path.join(config.path.build)));
 }
 
 function viewsTask() {
 
-  return scriptsAssets().then(function process(files) {
-    return toPromise(
-      gulp.src('src/**/*.jade')
-          .pipe(jade({pretty: true, locals: {files: files}}))
-          .pipe(gulp.dest(config.path.build))
-    );
-  });
+  return toPromise(
+    gulp.src('src/**/*.jade')
+        .pipe(jade({pretty: true, locals: {assets: assetsMap}}))
+        .pipe(gulp.dest(config.path.build))
+  );
 }
 
 gulp.task('clean', function(){
@@ -108,7 +113,7 @@ gulp.task('styles', function(){
   return stylesTask();
 });
 
-gulp.task('views', function(){
+gulp.task('views', ['scripts', 'styles'], function(){
   return viewsTask();
 });
 
@@ -119,10 +124,10 @@ gulp.task('watch', ['clean'], function(){
     toPromise(scriptsTask()),
     toPromise(fontsTask()),
     toPromise(imagesTask()),
-    toPromise(stylesTask()),
-    toPromise(viewsTask())
-    
-  ]).then(function watch() {
+    toPromise(stylesTask())
+  ])
+    .then(toPromise(viewsTask()))
+    .then(function watch() {
 
       console.log('watching...');
 

@@ -5,8 +5,8 @@ html
     title Ionic Rocket
     meta(name="viewport", content="initial-scale=1, maximum-scale=1, user-scalable=no")
 
-    link(rel="stylesheet", href="css/ionic.css")
-    link(rel="stylesheet", href="css/app.css")
+    each val in assets.styles
+      link(rel="stylesheet", href=val)
 
   body(ng-app="rocketApp")
 
@@ -17,5 +17,8 @@ html
 
     ion-nav-view
     
-    each val in files
+    each val in assets.dependencies
+      script(src=val)
+
+    each val in assets.scripts
       script(src=val)

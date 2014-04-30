@@ -1,7 +1,6 @@
 var config      = require('./config.js');
 var gulp        = require('gulp');
 var clean       = require('gulp-clean');
-var browserify  = require('gulp-browserify');
 var jade        = require('gulp-jade');
 var less        = require('gulp-less');
 var es          = require('event-stream');

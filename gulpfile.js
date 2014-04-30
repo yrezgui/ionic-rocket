@@ -2,7 +2,7 @@ var config      = require('./config.js');
 var gulp        = require('gulp');
 var clean       = require('gulp-clean');
 var jade        = require('gulp-jade');
-var less        = require('gulp-less');
+var sass        = require('gulp-sass');
 var es          = require('event-stream');
 var path        = require('path');
 var Q           = require('q');
@@ -25,11 +25,6 @@ function cleanTask() {
 function configTask() {
   return gulp.src(config.path.configs)
              .pipe(gulp.dest(config.path.build));
-}
-
-function resourcesTask() {
-  return gulp.src(config.path.resources)
-             .pipe(gulp.dest(path.join(config.path.build, 'res')));
 }
 
 function scriptsTask() {
@@ -55,7 +50,7 @@ function imagesTask() {
 
 function stylesTask() {
   return es.concat(
-    gulp.src('src/styles/app.less').pipe(less()),
+    gulp.src(config.path.styles).pipe(sass()),
     gulp.src(config.externalFiles.styles)
 
   ).pipe(gulp.dest(path.join(config.path.build, 'css')));
@@ -97,10 +92,6 @@ gulp.task('config', function() {
   return configTask();
 });
 
-gulp.task('resources', function() {
-  return resourcesTask();
-});
-
 gulp.task('scripts', function() {
   return scriptsTask();
 });
@@ -125,7 +116,6 @@ gulp.task('watch', ['clean'], function(){
 
   return Q.all([
     toPromise(configTask()),
-    toPromise(resourcesTask()),
     toPromise(scriptsTask()),
     toPromise(fontsTask()),
     toPromise(imagesTask()),
@@ -141,7 +131,6 @@ gulp.task('watch', ['clean'], function(){
       gulp.watch(config.path.images,    ['images']);
       gulp.watch(config.path.fonts,     ['fonts']);
       gulp.watch(config.path.configs,   ['config']);
-      gulp.watch(config.path.resources, ['resources']);
       gulp.watch(config.path.views,     ['views']);
   });
 });

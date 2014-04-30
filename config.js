@@ -14,12 +14,11 @@ config.externalFiles = {
 
 config.path = {
   build:      './www',
-  styles:     ['./src/styles/**/*.less'],
+  styles:     ['./src/**/*.scss'],
   scripts:    ['./src/**/*.js'],
   views:      ['./src/**/*.jade'],
   fonts:      ['./src/fonts/**/*'],
   images:     ['./src/images/**/*'],
-  resources:  ['./src/resources/**/*'],
   configs:    ['./src/config/**/*']
 };
 

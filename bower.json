@@ -12,8 +12,7 @@
     "cordova",
     "html5",
     "mobile",
-    "angularjs",
-    "browserify"
+    "angularjs"
   ],
   "license": "Apache Licence v2",
   "ignore": [
@@ -28,14 +27,11 @@
     "angular-touch": "~1.2.16",
     "angular-animate": "~1.2.16",
     "angular-ui-router": "~0.2.10",
-    "modernizr": "~2.7.2",
     "lodash": "~2.4.1",
-    "ionic": "~1.0.0-beta.1"
+    "ionic": "~1.0.0-beta.2"
   },
   "resolutions": {
     "angular": "~1.2.16",
-    "angular-animate": "~1.2.16",
-    "angular-ui-router": "~0.2.10",
-    "angular-sanitize": "~1.2.16"
+    "angular-ui-router": "~0.2.10"
   }
 }

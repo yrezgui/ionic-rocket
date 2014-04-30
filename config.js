@@ -25,7 +25,6 @@ config.path = {
 
 config.scripts = {
   dependencies: [
-    'vendor/modernizr/modernizr.js',
     'vendor/jquery/dist/jquery.js',
     'vendor/lodash/dist/lodash.js',
     'vendor/angular/angular.js',

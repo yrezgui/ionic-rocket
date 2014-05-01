@@ -82,11 +82,9 @@ function stylesTask() {
 
 function viewsTask() {
 
-  return toPromise(
-    gulp.src('src/**/*.jade')
-        .pipe(jade({pretty: true, locals: {assets: assetsMap}}))
-        .pipe(gulp.dest(config.path.build))
-  );
+  return gulp.src('src/**/*.jade')
+             .pipe(jade({pretty: true, locals: {assets: assetsMap}}))
+             .pipe(gulp.dest(config.path.build));
 }
 
 gulp.task('clean', function(){
@@ -113,8 +111,14 @@ gulp.task('styles', function(){
   return stylesTask();
 });
 
-gulp.task('views', ['scripts', 'styles'], function(){
-  return viewsTask();
+gulp.task('views', function(){
+  return Q.all([
+    toPromise(scriptsTask()),
+    toPromise(stylesTask())
+  ]).then(function finish() {
+    
+    return toPromise(viewsTask());
+  });
 });
 
 gulp.task('watch', ['clean'], function(){
@@ -126,17 +130,30 @@ gulp.task('watch', ['clean'], function(){
     toPromise(imagesTask()),
     toPromise(stylesTask())
   ])
-    .then(toPromise(viewsTask()))
+    .then(function finish() {
+      return toPromise(viewsTask());
+    })
     .then(function watch() {
 
       console.log('watching...');
 
-      gulp.watch(config.path.styles,    ['styles']);
-      gulp.watch(config.path.scripts,   ['scripts']);
       gulp.watch(config.path.images,    ['images']);
       gulp.watch(config.path.fonts,     ['fonts']);
       gulp.watch(config.path.configs,   ['config']);
       gulp.watch(config.path.views,     ['views']);
+
+
+      gulp.watch(config.path.styles, function watch(event) {
+        return toPromise(stylesTask()).then(function finish() {
+          return toPromise(viewsTask());
+        });
+      });
+      
+      gulp.watch(config.path.scripts, function watch(event) {
+        return toPromise(scriptsTask()).then(function finish() {
+          return toPromise(viewsTask());
+        });
+      });
   });
 });
 

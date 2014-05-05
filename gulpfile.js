@@ -36,7 +36,12 @@ function updateAssetsMap(type) {
   }
 
   return es.mapSync(function process(data) {
-    assetsMap[type].push(data.path.split(data.base)[1]);
+    var file = data.path.split(data.base)[1];
+
+    if(assetsMap[type].indexOf(file) === -1) {
+      assetsMap[type].push(file);
+    }
+
     return data;
   });
 }

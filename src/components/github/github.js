@@ -9,17 +9,26 @@ angular.module('components.github', [])
 
   .factory('Github', ['$http', 'GithubConfig', function Github($http, GithubConfig) {
 
-    function getLastCommits(sha, since, until) {
-      var url = GithubConfig.BASE_URL + GithubConfig.USERNAME + '/' + GithubConfig.REPOSITORY_NAME + '/commits';
+    function getLastCommits(sha) {
+      var url = GithubConfig.BASE_URL + 'repos/' + GithubConfig.USERNAME + '/' + GithubConfig.REPOSITORY_NAME + '/commits';
 
-      return $http({
-        method: 'JSONP',
+      var xhr = $http({
+        method: 'GET',
         url: url,
         params: {
-          sha: sha,
-          since: since,
-          until: until
+          sha: sha
         }
+      });
+
+      return xhr.then(function process(xhr) {
+
+        if(xhr.data.length === 1) {
+          if(xhr.data[0].sha === sha) {
+            return [];
+          }
+        }
+
+        return xhr.data;
       });
     }
 

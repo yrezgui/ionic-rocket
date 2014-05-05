@@ -1,45 +1,9 @@
 ion-view(title="Commits")
-  ion-content.light-bg.has-header.padding
-    p
-      img(src="https://pbs.twimg.com/media/BkdKf_PCAAE8-wU.png", alt="Ionic Rocket")
+  ion-content.light-bg.has-header
+    ion-infinite-scroll(icon="ion-loading-c", on-infinite="getCommits()", ng-if="!noMoreItemsAvailable")
+    div.list
 
-    h1 Ionic Rocket
-
-    p
-      | The best solution to bootstrap your HTML5 Mobile Application, created by
-      a(href="https://github.com/yrezgui") @yrezgui
-      | .
-
-    p
-      | Ionic Rocket is a collection of tools for building easily your HTML5 mobile application from prototyping to production. It"s a bunch of opensource libraries and frameworks. It is recommanded to use it on Unix systems (Linux, Mac OS, etc.) but it works on every platform supported by
-      a(href="https://github.com/joyent/node") @NodeJS
-      | .
-
-    p
-      | You can follow me on Twitter for any questions:
-      a(href="https://twitter.com/yrezgui") @yrezgui
-      | .
-
-    p Ionic Rocket is built on these projects :
-
-    ol
-      li
-        a(href="https://github.com/driftyco/ionic") Ionic Framework
-      li
-        a(href="https://github.com/angular/angular.js") AngularJS
-      li
-        a(href="https://github.com/apache/cordova-cli") Cordova
-      li
-        a(href="https://github.com/substack/node-browserify") Browserify
-      li
-        a(href="https://github.com/less/less.js") Less
-      li
-        a(href="https://github.com/visionmedia/jade") Jade
-      li
-        a(href="https://github.com/gulpjs/gulp") Gulp
-      li
-        a(href="https://github.com/joyent/node") NodeJS
-      li
-        a(href="https://github.com/npm/npm") NPM
-      li
-        a(href="https://github.com/bower/bower") Bower
+      a.item.item-avatar(ng-repeat="commit in commits", href="#")
+        img(ng-src="{{commit.author.avatar_url}}")
+        h2 {{commit.commit.message}}
+        p {{commit.commit.author.date}}

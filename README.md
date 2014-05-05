@@ -14,13 +14,12 @@ Ionic Rocket is built on these projects :
 1. [Ionic Framework](https://github.com/driftyco/ionic)
 2. [AngularJS](https://github.com/angular/angular.js)
 3. [Cordova](https://github.com/apache/cordova-cli)
-4. [Browserify](https://github.com/substack/node-browserify)
-5. [Less](https://github.com/less/less.js)
-6. [Jade](https://github.com/visionmedia/jade)
-7. [Gulp](https://github.com/gulpjs/gulp)
-8. [NodeJS](https://github.com/joyent/node)
-9. [NPM](https://github.com/npm/npm)
-10. [Bower](https://github.com/bower/bower)
+4. [Sass](https://github.com/less/less.js)
+5. [Jade](https://github.com/visionmedia/jade)
+6. [Gulp](https://github.com/gulpjs/gulp)
+7. [NodeJS](https://github.com/joyent/node)
+8. [NPM](https://github.com/npm/npm)
+9. [Bower](https://github.com/bower/bower)
 
 
 ## Contributing

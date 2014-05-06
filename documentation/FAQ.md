@@ -10,10 +10,6 @@ Well it's the best to my eyes because it handles nearly everything when you want
 
 It depends on your need. Ionic Rocket is just a boilerplate for now. It doesn't provide a powerful CLI commands like Yeoman generators. If you have the same stack as Ionic Rocket and you don't want to lose time, it's perfect. Otherwise Yeoman can be considered as an alternative.
 
-* **Why LESS while Ionic Framework is using SASS ?**
-
-Even if I am on Mac, Ruby has bad performances on Windows and I didn't want to develop a boilerplate only for Unix users. You have to know that the difference between LESS and SASS isn't big. The cool thing with SASS is the [Compass Framework](http://compass-style.org/). The equivalent for LESS is [LESS HAT](http://lesshat.madebysource.com/).
-
 * **Why Jade instead of HTML ?**
 
 When you work with big HTML pages, it's a pain to debug because it's too verbose. Jade fix that problem. But you can develop pages in HTML, the built system works with it too.
@@ -29,10 +25,6 @@ The choice is partly related to Ionic Framework which is only compatible with An
 * **Why Gulp instead of Grunt ?**
 
 Grunt seems more inspired by configuration-oriented build systems. Because of that, people created a plugin for everything instead of coding 15 lines. Gulp is a simple environment, the rest is just code. So you can easily hack it as you want.
-
-* **What is the need of Browserify ?**
-
-The advantage of Browserify is the simplicity of your code. It will looks like a NodeJS structure. It's easier to share code between frontend and backend. Have a look to [CommonJS](http://wiki.commonjs.org/wiki/CommonJS) to understand more about that. And don't be worry of the size of your main JS file, it's stored on the device. The CPU cycles for getting file from your phone memory is insignificant compared to distant network requests.
 
 * **Why Cordova instead of Phonegap ?**
 

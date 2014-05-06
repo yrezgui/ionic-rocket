@@ -21,6 +21,19 @@ Ionic Rocket is built on these projects :
 8. [NPM](https://github.com/npm/npm)
 9. [Bower](https://github.com/bower/bower)
 
+## Getting started
+Run these commands in your terminal in the directory of the cloned repository:
+
+```
+npm install
+bower install
+```
+
+And finally this command to have your automatic build:
+```
+gulp watch
+```
+
 
 ## Contributing
 

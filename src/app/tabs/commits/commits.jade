@@ -6,4 +6,4 @@ ion-view(title="Commits")
       a.item.item-avatar(ng-repeat="commit in commits", href="#")
         img(ng-src="{{commit.author.avatar_url}}")
         h2 {{commit.commit.message}}
-        p {{commit.commit.author.date}}
+        p {{commit.commit.author.date | date:'d MMM yyyy @ hh:mm'}}

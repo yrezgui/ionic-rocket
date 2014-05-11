@@ -6,18 +6,10 @@ var sass        = require('gulp-sass');
 var es          = require('event-stream');
 var path        = require('path');
 var Q           = require('q');
+var runSequence = require('run-sequence');
+var _           = require('lodash');
 
 var assetsMap = {};
-
-function toPromise(stream) {
-  var deferred = Q.defer();
-
-  stream.on('end', function end() {
-    deferred.resolve();
-  });
-
-  return deferred.promise;
-}
 
 function changeFolder(subfolder) {
   return es.through(function process(data) {
@@ -46,119 +38,88 @@ function updateAssetsMap(type) {
   });
 }
 
-function cleanTask() {
+gulp.task('clean', function cleanTask() {
   return gulp.src(config.path.build, {read: false})
              .pipe(clean());
-}
+});
 
-function configTask() {
+gulp.task('config', function configTask() {
   return gulp.src(config.path.configs)
              .pipe(gulp.dest(config.path.build));
-}
+});
 
-function scriptsTask() {
+gulp.task('scripts', function scriptsTask() {
   return es.concat(
     gulp.src(config.path.scripts).pipe(updateAssetsMap('scripts')),
     gulp.src(config.scripts.dependencies).pipe(changeFolder('deps')).pipe(updateAssetsMap('dependencies'))
 
   ).pipe(gulp.dest(config.path.build));
-}
+});
 
-function fontsTask() {
+gulp.task('fonts', function fontsTask() {
   return es.concat(
     gulp.src(config.path.fonts),
     gulp.src(config.externalFiles.fonts)
 
   ).pipe(gulp.dest(path.join(config.path.build, 'fonts')));
-}
+});
 
-function imagesTask() {
+gulp.task('images', function imagesTask() {
   return gulp.src(config.path.images)
              .pipe(gulp.dest(path.join(config.path.build, 'img')));
-}
+});
 
-function stylesTask() {
+gulp.task('styles', function stylesTask() {
   return es.concat(
     gulp.src(config.path.styles).pipe(sass()),
     gulp.src(config.externalFiles.styles)
 
   ).pipe(changeFolder('css')).pipe(updateAssetsMap('styles')).pipe(gulp.dest(path.join(config.path.build)));
-}
+});
 
-function viewsTask() {
 
+function processViews() {
   return gulp.src('src/**/*.jade')
              .pipe(jade({pretty: true, locals: {assets: assetsMap}}))
              .pipe(gulp.dest(config.path.build));
 }
 
-gulp.task('clean', function(){
-  return cleanTask();
+gulp.task('views', function viewsTask(callback) {
+
+  if(_.isEmpty(assetsMap)) {
+    runSequence(['scripts', 'styles'], function finish() {
+
+      processViews().on('end', callback);
+    });
+  } else {
+    processViews().on('end', callback);
+  }
 });
 
-gulp.task('config', function() {
-  return configTask();
+gulp.task('build', function buildTask(callback) {
+  return runSequence(
+    'clean',
+    ['config', 'scripts', 'fonts', 'images', 'styles'],
+    'views',
+    callback
+  );
 });
 
-gulp.task('scripts', function() {
-  return scriptsTask();
-});
+gulp.task('watch', ['build'], function watchTask(callback){
 
-gulp.task('fonts', function() {
-  return fontsTask();
-});
+  console.log('watching...');
 
-gulp.task('images', function() {
-  return imagesTask();
-});
+  gulp.watch(config.path.images,    ['images']);
+  gulp.watch(config.path.fonts,     ['fonts']);
+  gulp.watch(config.path.configs,   ['config']);
+  gulp.watch(config.path.views,     ['views']);
 
-gulp.task('styles', function(){
-  return stylesTask();
-});
-
-gulp.task('views', function(){
-  return Q.all([
-    toPromise(scriptsTask()),
-    toPromise(stylesTask())
-  ]).then(function finish() {
-    
-    return toPromise(viewsTask());
+  gulp.watch(config.path.styles, function watchStyles(event) {
+    return runSequence('styles', 'views');
   });
-});
 
-gulp.task('watch', ['clean'], function(){
-
-  return Q.all([
-    toPromise(configTask()),
-    toPromise(scriptsTask()),
-    toPromise(fontsTask()),
-    toPromise(imagesTask()),
-    toPromise(stylesTask())
-  ])
-    .then(function finish() {
-      return toPromise(viewsTask());
-    })
-    .then(function watch() {
-
-      console.log('watching...');
-
-      gulp.watch(config.path.images,    ['images']);
-      gulp.watch(config.path.fonts,     ['fonts']);
-      gulp.watch(config.path.configs,   ['config']);
-      gulp.watch(config.path.views,     ['views']);
-
-
-      gulp.watch(config.path.styles, function watch(event) {
-        return toPromise(stylesTask()).then(function finish() {
-          return toPromise(viewsTask());
-        });
-      });
-      
-      gulp.watch(config.path.scripts, function watch(event) {
-        return toPromise(scriptsTask()).then(function finish() {
-          return toPromise(viewsTask());
-        });
-      });
+  gulp.watch(config.path.scripts, function watchScripts(event) {
+    return runSequence('scripts', 'views');
   });
 });
 

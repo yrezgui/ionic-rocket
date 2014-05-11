@@ -30,6 +30,8 @@
     "watchify": "~0.6.3",
     "gulp-util": "~2.2.14",
     "q": "~1.0.1",
-    "gulp-sass": "~0.7.1"
+    "gulp-sass": "~0.7.1",
+    "run-sequence": "~0.3.6",
+    "lodash": "~2.4.1"
   }
 }

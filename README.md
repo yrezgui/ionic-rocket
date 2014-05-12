@@ -29,11 +29,21 @@ npm install
 bower install
 ```
 
+If you don't have Gulp already installed, execute this command :
+```
+npm install -g gulp
+```
+
 And finally this command to have your automatic build:
 ```
 gulp watch
 ```
 
+You need a HTTP server to serve your files. I will certainly add an express instance soon. For now, you can use this command (which is useful for a quick HTTP server) :
+```
+python -m SimpleHTTPServer
+```
+Don't forget to run it in the root folder of Ionic Rocket. The watch task clean at first the **www** folder and it crashes python server if you loaded from there.
 
 ## Contributing
 
